@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--
+        Author: Aubrey Soule
+        Date: October 16, 2026
+        Assignment: Control Flow
+    -->
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aubrey's Portfolio</title>
+    <style>
+        body { background-color: white; color: #222; font-family: Arial, sans-serif; margin: 25px; }
+        a { color: #0758ae; }
+        .resource-box { border: 2px solid #397ac0; padding: 15px; margin: 12px 0; background-color: #edf5ff; }
+        .resource-box img { margin: 5px; max-width: 100%; }
+        .dark-mode { background-color: #202020; color: white; }
+        .dark-mode a { color: #91c8ff; }
+        .dark-mode .resource-box { background-color: #333; border-color: #91c8ff; }
+    </style>
+</head>
+
+<body>
+
+    <label for="darkMode">Dark Mode</label>
+    <input type="checkbox" id="darkMode">
+
+    <div style="margin: 15px 0;">
+        <label for="nameInput">Your name:</label>
+        <input type="text" id="nameInput" placeholder="Enter your name">
+        <button type="button" id="greetButton">Greet Me</button>
+    </div>
+
+    <header>
+        <h1>My Personal Portfolio</h1>
+        <h2 id="welcome">Welcome to my website!</h2>
+
+        <!-- Navigation Menu -->
+        <nav>
+            <a href="#about">About</a> |
+            <a href="#projects">Projects</a> |
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <hr>
+
+    <main>
+
+        <!-- About Section -->
+        <section id="about">
+            <h2>About Me</h2>
+
+            <p>
+                Hello! My name is Aubrey Soule.
+                I am currently a student at ECPI University
+                studying software development.
+                I enjoy learning different programming
+                languages and creating applications.
+                My goal is to continue improving my
+                programming skills and building projects.
+            </p>
+
+            <h3>My Skills</h3>
+            <ul id="skillsList"></ul>
+        </section>
+
+        <hr>
+
+        <!-- Featured Content Section -->
+        <section id="featured">
+            <h2>Featured Content</h2>
+
+            <div id="universityResources" class="resource-box">
+                <h3>University Resources</h3>
+                <p><a href="https://www.ecpi.edu/programs/software-development-bachelor-degree" target="_blank">ECPI Software Development Program</a></p>
+                <p><a href="https://www.ecpi.edu/" target="_blank">ECPI University Home</a></p>
+            </div>
+
+            <div id="personalProjects" class="resource-box">
+                <h3>Personal Projects</h3>
+                <a href="https://github.com/" target="_blank">
+                    <img src="https://placehold.co/200x120?text=Python+Project" alt="Python Project">
+                </a>
+                <a href="https://github.com/" target="_blank">
+                    <img src="https://placehold.co/200x120?text=Database+Project" alt="Database Project">
+                </a>
+                <a href="https://github.com/" target="_blank">
+                    <img src="https://placehold.co/200x120?text=Java+Project" alt="Java Project">
+                </a>
+            </div>
+        </section>
+
+        <hr>
+
+        <!-- Projects Section -->
+        <section id="projects">
+            <h2>My Projects</h2>
+
+            <h3 class="project-title">Project 1 - Python Application</h3>
+            <a href="https://github.com/" target="_blank">
+                <img src="https://placehold.co/200x120?text=Python+Project"
+                     alt="Python Project">
+            </a>
+            <p>A Python project using basic programming concepts.</p>
+
+            <h3 class="project-title">Project 2 - Database Application</h3>
+            <a href="https://github.com/" target="_blank">
+                <img src="https://placehold.co/200x120?text=Database+Project"
+                     alt="Database Project">
+            </a>
+            <p>A database application using CRUD operations.</p>
+
+            <h3 class="project-title">Project 3 - Java Application</h3>
+            <a href="https://github.com/" target="_blank">
+                <img src="https://placehold.co/200x120?text=Java+Project"
+                     alt="Java Project">
+            </a>
+            <p>A Java project demonstrating object-oriented programming.</p>
+        </section>
+
+        <hr>
+
+        <!-- Contact Section -->
+        <section id="contact">
+            <h2>Contact Me</h2>
+
+            <form id="contactForm">
+
+                <label for="name">Name:</label><br>
+                <input type="text" id="name" required><br><br>
+
+                <label for="email">Email Address:</label><br>
+                <input type="email" id="email" required><br><br>
+
+                <label for="subject">Subject:</label><br>
+                <input type="text" id="subject" required><br><br>
+
+                <label for="message">Message:</label><br>
+                <textarea id="message" rows="5" cols="30"
+                          required></textarea><br><br>
+
+                <button type="submit" id="submitButton">Submit</button>
+
+            </form>
+        </section>
+
+    </main>
+
+    <hr>
+
+    <footer>
+        <p>Created by Aubrey Soule - 2026</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+
+        // Personalized greeting using an input 
+        document.getElementById("greetButton").addEventListener("click", function () {
+            let userName = document.getElementById("nameInput").value.trim();
+            if (userName !== "") {
+                document.getElementById("welcome").textContent =
+                    "Welcome to my portfolio, " + userName + "!";
+            } else {
+                document.getElementById("welcome").textContent = "Welcome to my website!";
+            }
+        });
+
+        // Show skills using a for loop
+        let skills = ["HTML", "CSS", "JavaScript", "Git", "GitHub", "Python"];
+        for (let i = 0; i < skills.length; i++) {
+            let item = document.createElement("li");
+            item.textContent = skills[i];
+            document.getElementById("skillsList").appendChild(item);
+        }
+
+        // Show or hide university resources based on number of projects
+        let projectCount = document.querySelectorAll("#projects .project-title").length;
+        if (projectCount < 3) {
+            document.getElementById("universityResources").style.display = "block";
+            document.getElementById("personalProjects").style.display = "block";
+        } else {
+            document.getElementById("universityResources").style.display = "none";
+            document.getElementById("personalProjects").style.display = "block";
+        }
+
+        // Change between light and dark mode
+        document.getElementById("darkMode").addEventListener("change", function() {
+            if (this.checked) {
+                document.body.classList.add("dark-mode");
+            } else {
+                document.body.classList.remove("dark-mode");
+            }
+        });
+
+        // Show a message when the contact form button is clicked
+        document.getElementById("submitButton").addEventListener("click", function(event) {
+            event.preventDefault();
+            let form = document.getElementById("contactForm");
+            if (form.reportValidity()) {
+                let name = document.getElementById("name").value;
+                alert("Thank you, " + name + ", your message has been sent!");
+            }
+        });
+
+    </script>
+
+</body>
+</html>
