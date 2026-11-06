@@ -3,7 +3,7 @@
 <head>
     <!--
         Author: Aubrey Soule
-        Date: October 30, 2026
+        Date: November 06, 2026
         Assignment: Portfolio - Welcome Modal, Tooltip, and Dark Mode
        
     -->
@@ -218,33 +218,7 @@
         <!-- Projects Section -->
         <section id="projects">
             <h2>My Projects</h2>
-
-            <h3 class="project-title">Project 1 - Python Application</h3>
-
-            <a href="https://github.com/" target="_blank">
-                <img src="https://placehold.co/200x120?text=Python+Project"
-                     alt="Python Project">
-            </a>
-
-            <p>A Python project using basic programming concepts.</p>
-
-            <h3 class="project-title">Project 2 - Database Application</h3>
-
-            <a href="https://github.com/" target="_blank">
-                <img src="https://placehold.co/200x120?text=Database+Project"
-                     alt="Database Project">
-            </a>
-
-            <p>A database application using CRUD operations.</p>
-
-            <h3 class="project-title">Project 3 - Java Application</h3>
-
-            <a href="https://github.com/" target="_blank">
-                <img src="https://placehold.co/200x120?text=Java+Project"
-                     alt="Java Project">
-            </a>
-
-            <p>A Java project demonstrating object-oriented programming.</p>
+            <div id="projectList"></div>
         </section>
 
         <hr>
@@ -331,6 +305,113 @@
             document.getElementById("skillsList").appendChild(item);
         }
 
+        // Define the default portfolio projects
+        const pythonProject = {
+            title: "Project 1 - Python Application",
+            summary: "A Python project using basic programming concepts. It demonstrates programming and problem-solving skills.",
+            imageUrl: "https://placehold.co/200x120?text=Python+Project",
+            repositoryUrl: "https://github.com/"
+        };
+
+        const databaseProject = {
+            title: "Project 2 - Database Application",
+            summary: "A database application using CRUD operations. It demonstrates how data can be created, retrieved, updated, and deleted.",
+            imageUrl: "https://placehold.co/200x120?text=Database+Project",
+            repositoryUrl: "https://github.com/"
+        };
+
+        const javaProject = {
+            title: "Project 3 - Java Application",
+            summary: "A Java project demonstrating object-oriented programming. It uses classes and objects to organize application functionality.",
+            imageUrl: "https://placehold.co/200x120?text=Java+Project",
+            repositoryUrl: "https://github.com/"
+        };
+
+        const defaultProjects = [
+            pythonProject,
+            databaseProject,
+            javaProject
+        ];
+
+        // Handle browser storage safely
+        function readStorage(storageType, key) {
+            try {
+                return window[storageType].getItem(key);
+            } catch (error) {
+                console.warn(storageType + " is unavailable.", error);
+                return null;
+            }
+        }
+
+        function writeStorage(storageType, key, value) {
+            try {
+                window[storageType].setItem(key, value);
+            } catch (error) {
+                console.warn(storageType + " could not save data.", error);
+            }
+        }
+
+        let projects;
+        const savedProjects = readStorage("sessionStorage", "portfolioProjects");
+
+        if (savedProjects === null) {
+            projects = defaultProjects;
+            writeStorage(
+                "sessionStorage",
+                "portfolioProjects",
+                JSON.stringify(projects)
+            );
+        } else {
+            try {
+                projects = JSON.parse(savedProjects);
+
+                if (!Array.isArray(projects)) {
+                    throw new Error("Invalid project data.");
+                }
+            } catch (error) {
+                console.warn("Saved project data is invalid; restoring defaults.", error);
+                projects = defaultProjects;
+                writeStorage(
+                    "sessionStorage",
+                    "portfolioProjects",
+                    JSON.stringify(projects)
+                );
+            }
+        }
+
+        // Render projects in the Projects section
+        const projectList = document.querySelector("#projects #projectList");
+        projectList.replaceChildren();
+
+        projects.forEach(function (project) {
+            const card = document.createElement("article");
+            card.className = "project-card";
+
+            const heading = document.createElement("h3");
+            heading.className = "project-title";
+            heading.textContent = project.title;
+
+            const summary = document.createElement("p");
+            summary.textContent = project.summary;
+
+            const repoLink = document.createElement("a");
+            repoLink.href = project.repositoryUrl;
+            repoLink.target = "_blank";
+            repoLink.rel = "noopener noreferrer";
+            repoLink.textContent = "View Repository";
+
+            const image = document.createElement("img");
+            image.src = project.imageUrl;
+            image.alt = project.title + " preview";
+            image.width = 200;
+            image.height = 120;
+
+            card.appendChild(heading);
+            card.appendChild(summary);
+            card.appendChild(image);
+            card.appendChild(repoLink);
+            projectList.appendChild(card);
+        });
 
         // Show or hide university resources based on number of projects
         let projectCount = document.querySelectorAll("#projects .project-title").length;
